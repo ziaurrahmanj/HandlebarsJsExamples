@@ -1,0 +1,64 @@
+<html>
+
+<head>
+
+<script   src="https://code.jquery.com/jquery-2.2.3.min.js"   integrity="sha256-a23g1Nt4dtEYOj7bR+vTu7+T8VP13humZFBJNIYoEJo="   crossorigin="anonymous"></script>
+<script src="http://www.fsfoo.com/js/vendor/handlebars-1.0.rc.2.js"></script>
+ </head>
+
+<body> 
+
+<div id="content">
+   </div>
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="http://www.fsfoo.com/js/vendor/handlebars-1.0.rc.2.js"></script>
+<script id="some-template" type="text/x-handlebars-template">
+ 
+       {{#each objects}}
+	    <div style="border-style: solid;background-color:#efefef;">
+			<ul>
+			<li>{{id}}</li>
+			<li>{{title}}</li>
+			<li>{{body}}</li>
+			<input type="button" class="myButton" value="Select" data-ref="{{id}}" ></input>
+			</ul>
+			 </div>
+	    {{/each}}
+   
+</script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+       
+           
+            var root = 'http://jsonplaceholder.typicode.com';
+
+			$.ajax({
+			  url: root + '/posts',
+			  method: 'GET',
+			  success :handleData
+			});
+			
+			
+			   
+			
+            
+				function handleData(data) {
+					
+					  var wrapper  = {objects: data};
+					var source = $("#some-template").html();
+					var template = Handlebars.compile(source);
+					$('#content').append(template(wrapper));
+					   $( ".myButton" ).on( "click", function() {
+						console.log( $(this).data("ref") );
+						});
+				}
+            
+        });
+			
+</script>
+
+</body>
+
+</html>
